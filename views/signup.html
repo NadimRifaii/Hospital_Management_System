@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>
+    <label for="userName">Enter username</label>
+    <input type="text" id="username">
+  </div>
+  <div>
+    <label for="lastname">Enter lastname</label>
+    <input type="text" id="lastname">
+  </div>
+  <div>
+    <label for="role">Enter your role</label>
+    <select name="" id="role">
+      <option value="patient" selected>Patient</option>
+      <option value="doctor">Doctor</option>
+    </select>
+  </div>
+  <div>
+    <label for="email">Enter email</label>
+    <input type="email" id="email">
+  </div>
+  <div>
+    <label for="password">Enter password</label>
+    <input type="password" id="password">
+  </div>
+  <button>Login</button>
+  <script>
+
+    const email = document.querySelector('#email');
+    const password = document.querySelector('#password');
+    const loginBtn = document.querySelector('button');
+    loginBtn.addEventListener('click', function () {
+      const data = {
+        "email": email.value,
+        "password": password.value
+      }
+      fetch('http://localhost/hospitalManagementSystem/routes/log-in-user.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then(response => {
+        return response.json();
+      }).then(data => {
+        console.log(data.jwt);
+        localStorage.setItem('jwt', data.jwt);
+      })
+    })
+
+  </script>
+</body>
+
+</html>

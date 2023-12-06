@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script async>
+    const jwtToken = localStorage.getItem('jwt');
+    if (!jwtToken) {
+      location.assign('index.html');
+    }
+    else {
+      fetch('http://localhost/hospitalManagementSystem/routes/jwtVerification.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ jwt: jwtToken })
+      }).then(response => response.json())
+        .then(data => {
+          console.log(data.role);
+          if (data.role != 'admin') {
+            location.assign('index.html');
+          }
+        }).catch(error => {
+          location.assign('index.html');
+        })
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Welcome to products! Only admins allowed</h1>
+</body>
+
+</html>
